@@ -1,0 +1,21 @@
+.profile-picture {
+    display: inline-flex;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-picture .placeholder, .profile-picture img {
+    height: 100%;
+    width: 100%;
+}
+
+.profile-picture .placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.extend {
+    cursor: default;
+}

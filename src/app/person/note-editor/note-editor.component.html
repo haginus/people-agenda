@@ -1,0 +1,28 @@
+<div *ngIf="data.mode == 'edit'" class="long">
+  <h1 mat-dialog-title>{{data.noteId != undefined ? 'Editare' : 'Adăugare'}} notă</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Titlu</mat-label>
+      <input matInput [(ngModel)]="note.title">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Conținut*</mat-label>
+      <textarea matInput [(ngModel)]="note.content"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anulați</button>
+    <button mat-button [mat-dialog-close]="data.notes" (click)="saveNote()">Salvați</button>
+  </div>
+</div>
+
+<div *ngIf="data.mode == 'delete'">
+  <h1 mat-dialog-title>Ștergere notă</h1>
+  <div mat-dialog-content>
+    <p>Doriți să ștergeți nota?</p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anulați</button>
+    <button mat-button [mat-dialog-close]="data.notes" (click)="deleteNote()">Ștergeți</button>
+  </div>
+</div>

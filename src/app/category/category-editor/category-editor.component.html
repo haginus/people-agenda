@@ -1,0 +1,32 @@
+<div *ngIf="!error && data.mode == 'edit'">
+  <h1 mat-dialog-title>{{data?.categoryId ? 'Editare' : 'Adăugare'}} categorie</h1>
+  <div mat-dialog-content>
+      <mat-form-field appearance="outline">
+          <mat-label>Nume categorie</mat-label>
+          <input matInput [(ngModel)]="category.name">
+      </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anulați</button>
+    <button mat-button [mat-dialog-close]="category" (click)="saveCategory()" [disabled]="category.name?.length == 0">Salvați</button>
+  </div>
+</div>
+<div *ngIf="!error && data.mode == 'delete'">
+  <h1 mat-dialog-title>Ștergeți categoria?</h1>
+  <div mat-dialog-content>
+      <p>Ștergeți categoria <b>{{category.name}}?</b></p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="false">Anulați</button>
+    <button mat-button [mat-dialog-close]="true" (click)="deleteCategory()">Ștergeți</button>
+  </div>
+</div>
+<div *ngIf="error">
+  <h1 mat-dialog-title *ngIf="error">Eroare</h1>
+  <div mat-dialog-content>
+    <p *ngIf="error">Această categorie nu există.</p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>OK</button>
+  </div>
+</div>

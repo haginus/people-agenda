@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Salvați în agenda dvs.</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="outline" style="width: calc(80vw - 48px); max-width: 300px; margin-bottom: 16px;">
+    <mat-label>Categorie</mat-label>
+    <mat-select multiple [(ngModel)]="data.person.categoryId">
+        <mat-option style="display: none;"></mat-option>
+        <mat-option [value]="category.categoryId" *ngFor="let category of data.categories">{{category.name}}</mat-option>
+        <div class="mat-option" (click)="addCategory()">Adăugați o categorie</div>
+    </mat-select>
+    <mat-hint>Alegeți o categorie pentru persoana distribuită.</mat-hint>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Anulați</button>
+  <button mat-button [mat-dialog-close]="true" [disabled]="!data.person.categoryId">Salvați</button>
+</mat-dialog-actions>

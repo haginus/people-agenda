@@ -1,0 +1,26 @@
+<mat-card *ngFor="let category of categories" class="category-card">
+    <mat-card-header>
+      <mat-card-title>{{category.name}}</mat-card-title>
+      <mat-card-subtitle>{{category.peopleCount}} {{category.peopleCount == 1 ? 'persoană' : 'persoane'}}</mat-card-subtitle>
+      <span class="spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="categoryMenu" [matMenuTriggerData]="{category: category}" style="z-index: 2;">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-actions>
+    </mat-card-actions>
+    <a [routerLink]="['/category', category.categoryId]" class="extend" (contextmenu)="onRightClick()"></a>
+</mat-card>
+
+<mat-menu #categoryMenu="matMenu">
+  <ng-template matMenuContent let-category="category">
+    <button mat-menu-item (click)="editCategory(category.categoryId)">
+      <mat-icon>edit</mat-icon>
+      <span>Editați categoria</span>
+    </button>
+    <button mat-menu-item (click)="deleteCategory(category.categoryId)" [disabled]="category.peopleCount != 0">
+      <mat-icon>delete</mat-icon>
+      <span>Ștergeți categoria</span>
+    </button>
+  </ng-template>
+</mat-menu>

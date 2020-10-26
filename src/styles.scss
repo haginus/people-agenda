@@ -1,1 +1,153 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'fonts';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.flex-container .flex-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.flex-container .flex-content>:first-child {
+    margin-top: 8px;
+}
+
+.mat-toolbar.white {
+    background: white;
+}
+
+.mat-toolbar.border-bottom {
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.mat-toolbar.border-top {
+    border-top: 1px solid #EEEEEE;
+}
+
+b {
+    font-weight: 500;
+}
+
+a.extend {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    user-select: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.centered {
+    text-align: center;
+}
+
+.query-options {
+    .mat-form-field-flex {
+        height: 48px;
+        align-items: center;
+    }
+
+    .mat-form-field-wrapper {
+        padding: 0!important;
+    }
+}
+
+.floating-fab-container {
+    display: inline-flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+
+    .fab-actions-container {
+        padding: 0 8px 12px 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: 0.2s ease-in-out;
+
+    }
+
+    .fab-action {
+        margin-top: 12px;
+        position: relative;
+    }
+
+    .fab-action > span {
+        margin-right: 12px;
+        color: #616161;
+    }
+
+    .main-fab mat-icon {
+        transition: 0.2s ease-in-out;
+    }
+}
+
+.floating-fab-container:hover {
+    .fab-actions-container {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    .main-fab mat-icon {
+        transform: rotate(45deg);
+    }
+}
+
+.mat-list-single-selected-option > :before {
+    content: 'check';
+    position: absolute;
+    right: 16px;
+    font-family: 'Material Icons';
+    font-size: 24px;
+    line-height: 24px;
+    color: #616161;
+}
+
+.mat-list-single-selected-option {
+    background: rgba(0,0,0,0)!important;
+}
+
+.mat-list-single-selected-option:hover {
+    background: rgba(0,0,0,.04)!important;
+}
+
+.mat-select-panel {
+    outline: none;
+}
+
+.cdk-overlay-pane {
+    align-items: center;
+    justify-content: center;
+}
+
+mat-dialog-container[id="fullScreen"] {
+    max-width: 800px;
+    max-height: 80vh;
+    padding: 0;
+    .mat-dialog-content {
+        padding: 0;
+        margin: 0;
+        max-height: calc(100% - 64px);
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    mat-dialog-container[id="fullScreen"] {
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "Agendă poliție",
+  "short_name": "Agendă poliție",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/icons/maskable-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Căutați persoane",
+      "url": "/search",
+      "icons": [{ "src": "/assets/icons/shortcut-search-icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Adăugați o persoană",
+      "url": "/person/create",
+      "icons": [{ "src": "/assets/icons/shortcut-add-icon.png", "sizes": "192x192" }]
+    }
+  ]
+}

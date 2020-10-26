@@ -1,0 +1,12 @@
+<mat-card *ngFor="let person of people" class="person-card">
+    <mat-card-header>
+        <app-profile-picture mat-card-avatar [photo]="person.photo"></app-profile-picture>
+        <mat-card-title>{{person.lastName}} {{person.firstName}}</mat-card-title>
+        <mat-card-subtitle >
+            <span *ngIf="person.alias">“{{person.alias}}”, </span>
+            <span>{{person.CNP | age }}</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <a [routerLink]="['/person', person.personId]" class="extend" (contextmenu)="onRightClick()"></a>
+</mat-card>
+<div class="no-results" *ngIf="people?.length == 0">Nu există persoane.</div>

@@ -1,0 +1,177 @@
+<div class="flex-container">
+    <mat-toolbar class="white border-bottom">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span *ngIf="mode == 'edit'">{{personId ? 'Editare' : 'Adăgare'}} persoană</span>
+        <span *ngIf="mode == 'view'">Persoană</span>
+        <span *ngIf="mode == 'share'">Persoană distribuită</span>
+        <span class="spacer"></span>
+        <div *ngIf="mode == 'view'">
+            <button mat-icon-button (click)="startEditMode()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="deletePerson()">
+                    <mat-icon>delete</mat-icon>
+                    <span>Ștergeți persoana</span>
+                </button>
+                <button mat-menu-item (click)="toggleStarred()">
+                    <mat-icon>star</mat-icon>
+                    <span>{{!person?.starred ? 'Adăugați' : 'Scoateți de'}} la favorite</span>
+                </button>
+                <button mat-menu-item (click)="sharePerson()">
+                    <mat-icon>share</mat-icon>
+                    <span>Distribuiți persoana</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div *ngIf="mode == 'edit'">
+            <button mat-icon-button [disabled]="personForm.invalid" (click)="savePerson()">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="mode == 'share'">
+            <button mat-icon-button (click)="saveSharedPerson()" matTooltip="Salvați în agenda dvs.">
+                <mat-icon>save_alt</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <div class="flex-content" *ngIf="person">
+        <div class="person-header">
+            <app-profile-picture [height]="96" [width]="96" [photo]="person.photo" (click)="viewPhoto()"></app-profile-picture>
+            <div class="person-header-details" *ngIf="mode == 'view' || mode == 'share'">
+                <div class="person-name">{{person.lastName}} {{person.firstName}}</div>
+                <div class="person-alias">
+                    <span *ngIf="person.alias">“{{person.alias}}”, </span>
+                    <span>{{person.CNP | age}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="mode == 'edit'" [formGroup]="personForm">
+            <div class="photo-upload-container centered">
+                <label for="photoUpload" class="pseudo-button">
+                    <mat-icon>publish</mat-icon>
+                </label>
+                <span class="divider-vertical" *ngIf="person.photo"></span>
+                <label class="pseudo-button" *ngIf="person.photo" (click)="clearPhoto()">
+                    <mat-icon>clear</mat-icon>
+                </label>
+                <input id="photoUpload" type="file" (change)="uploadPhoto($event.target.files)" accept="image/*">
+            </div>       
+            <mat-card class="detail-card mat-elevation-z2">
+                <div class="detail-content">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Categorie</mat-label>
+                        <mat-select formControlName="categoryId" multiple>
+                            <mat-option style="display: none;"></mat-option>
+                            <mat-option [value]="category.categoryId" *ngFor="let category of categories">{{category.name}}</mat-option>
+                            <div class="mat-option" (click)="addCategory()">Adăugați o categorie</div>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card>
+            <mat-card class="detail-card mat-elevation-z2">
+                <div class="detail-content">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nume de familie</mat-label>
+                        <input matInput formControlName="lastName">
+                        <mat-error>Numele de familie este obigatoriu!</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Prenume</mat-label>
+                        <input matInput formControlName="firstName">
+                        <mat-error>Prenumele este obigatoriu!</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Alias</mat-label>
+                        <input matInput formControlName="alias">
+                    </mat-form-field>
+                </div>
+            </mat-card>
+            <mat-card class="detail-card mat-elevation-z2">
+                <div class="detail-content">
+                    <mat-form-field appearance="outline">
+                        <mat-label>CNP</mat-label>
+                        <input matInput formControlName="CNP" [errorStateMatcher]="matcher" pattern="[0-9]*">
+                        <mat-error *ngIf="CNP.errors?.required">CNP-ul este obligatoriu!</mat-error>
+                        <mat-error *ngIf="CNP.errors?.invalidYearSex">Prima cifră a CNP-ului este invalidă!</mat-error>
+                        <mat-error *ngIf="CNP.errors?.invalidStructure">CNP-ul este format din 13 cifre!</mat-error>
+                        <mat-error *ngIf="CNP.errors?.invalidDate">Data de naștere extrasă din CNP nu este validă!</mat-error>
+                        <mat-error *ngIf="CNP.errors?.invalidCounty">Codul județului/sectorului din Mun. București extras din CNP nu este valid!</mat-error>
+                        <mat-error *ngIf="CNP.errors?.invalidControlDigit">Cifra de control a CNP-ului este invalidă!</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Serie și număr act de identitate</mat-label>
+                        <input matInput formControlName="identityCard">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Domiciliu sau reședință</mat-label>
+                        <input matInput formControlName="home">
+                    </mat-form-field>
+                </div>
+            </mat-card>
+        </div>
+        <div *ngIf="mode == 'view' || mode == 'share'">
+            <mat-card class="detail-card mat-elevation-z2">
+                <div class="detail-title">CNP</div>
+                <div class="detail-content">
+                    <span>{{person.CNP}}</span>
+                </div>
+            </mat-card>
+
+            <mat-card class="detail-card mat-elevation-z2" *ngIf="person.identityCard">
+                <div class="detail-title">Act de identitate</div>
+                <div class="detail-content">
+                    <span>{{person.identityCard}}</span>
+                </div>
+            </mat-card>
+
+            <mat-card class="detail-card mat-elevation-z2" *ngIf="person.home">
+                <div class="detail-title">Adresă</div>
+                <div class="detail-content">
+                    <span>{{person.home}}</span>
+                </div>
+            </mat-card>
+
+            <mat-card class="detail-card mat-elevation-z2">
+                <div class="detail-title">Note</div>
+                <div class="detail-content">
+                    <div class="note-preview" *ngFor="let note of person.notes; let i = index">
+                        <div class="note-wrapper">
+                            <div class="note-wrapper-content">
+                                <div class="note-title" *ngIf="note.title">{{note.title}}</div>
+                                <div class="note-content">{{note.content}}</div>
+                            </div>
+                            <div class="note-actions" *ngIf="mode == 'view'">
+                                <button mat-icon-button [matMenuTriggerFor]="noteMenu" [matMenuTriggerData]="{id: i}">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="note-timestamp">{{note.timestamp | date:'dd.MM.yyyy HH:mm'}}</div>
+                    </div>
+                    <mat-menu #noteMenu="matMenu">
+                        <ng-template matMenuContent let-id="id">
+                            <button mat-menu-item (click)="editNote(id)">
+                                <mat-icon>edit</mat-icon>
+                                <span>Editați nota</span>
+                            </button>
+                            <button mat-menu-item (click)="deleteNote(id)">
+                                <mat-icon>delete</mat-icon>
+                                <span>Ștergeți nota</span>
+                            </button>
+                        </ng-template>
+                    </mat-menu>
+                    <div class="centered" *ngIf="mode == 'view'">
+                        <button mat-button color="primary" (click)="editNote()">ADĂUGAȚI NOTĂ</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+    </div>
+</div>

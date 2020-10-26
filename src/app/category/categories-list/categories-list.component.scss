@@ -1,0 +1,21 @@
+.category-card {
+    margin-bottom: 16px;
+
+    mat-card-title {
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    mat-card-actions {
+        padding: 16px;
+        text-align: end;
+    }
+
+    mat-card-title, mat-card-subtitle {
+        margin: 0 -16px;
+    }
+}
+
+.mat-card-header-text {
+    margin: 0px!important;
+}

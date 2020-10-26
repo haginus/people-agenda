@@ -1,0 +1,7 @@
+<div class="profile-picture" [ngStyle]="{'width': width + 'px', 'height': height + 'px'}">
+    <div *ngIf="!photo" class="placeholder" [ngStyle]="{'background': colorPal.bg, 'color': colorPal.color}">
+        <mat-icon [ngStyle]="{'width': width / 2 + 'px', 'height': height / 2 + 'px', 'font-size': height / 2 + 'px'}">person</mat-icon>
+    </div>
+    <img *ngIf="photo" src="{{photo}}"/>
+    <a class="extend"></a>
+</div>

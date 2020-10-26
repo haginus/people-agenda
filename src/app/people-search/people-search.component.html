@@ -1,0 +1,25 @@
+<div class="flex-container">
+    <mat-toolbar class="white border-bottom">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="search-bar-container">
+            <div class="search-bar-wrapper">
+                <mat-icon>search</mat-icon>
+                <input type="text" class="search-bar" placeholder="Căutați după nume, prenume, alias, CNP" [(ngModel)]="peopleQuery.personDetails" (keyup)="queryPeople()"/>
+            </div>
+        </div>
+        <button mat-icon-button (click)="openFilters()" [color]="filtersOn ? 'primary' : '#000000'">
+            <mat-icon>tune</mat-icon>
+        </button>
+    </mat-toolbar>
+    <div class="flex-content">
+        <div class="query-header">
+            <h1>Rezultatele căutării</h1>
+            <span *ngIf="peopleQueried">{{peopleQueried.length}} {{peopleQueried.length == 1 ? 'persoană' : 'persoane'}}</span>
+        </div>
+        <div class="people-list-container">
+            <app-people-list [people]="peopleQueried"></app-people-list>
+        </div>
+    </div>
+</div>

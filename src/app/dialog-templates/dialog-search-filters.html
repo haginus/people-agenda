@@ -1,0 +1,32 @@
+
+<mat-toolbar class="white border-bottom">
+    <button mat-icon-button [mat-dialog-close]="result()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Opțiuni căutare</span>
+</mat-toolbar>
+<div mat-dialog-content>
+    <mat-selection-list #sortBy [multiple]="false" [(ngModel)]="peopleQuery.sortBy.index">
+        <div mat-subheader>Sortați după</div>
+        <mat-list-option value="id">Data creării</mat-list-option>
+        <mat-list-option value="lastName">Nume</mat-list-option>
+        <mat-list-option value="firstName">Prenume</mat-list-option>
+        <mat-list-option value="alias">Alias</mat-list-option>
+        <mat-list-option value="age">Vârstă</mat-list-option>
+    </mat-selection-list>
+    <mat-selection-list #sortByOrder [multiple]="false" [(ngModel)]="peopleQuery.sortBy.order">
+        <div mat-subheader>În ordine</div>
+        <mat-list-option value="asc">Ascendentă</mat-list-option>
+        <mat-list-option value="desc">Descendentă</mat-list-option>
+    </mat-selection-list>
+    <mat-selection-list #ageFilter [multiple]="false" [(ngModel)]="peopleQuery.filterByAge">
+        <div mat-subheader>Filtrați după vârstă</div>
+        <mat-list-option value="all">Toți</mat-list-option>
+        <mat-list-option value="minor">Minori</mat-list-option>
+        <mat-list-option value="major">Majori</mat-list-option>
+    </mat-selection-list>
+    <mat-selection-list #categoriesFilter [(ngModel)]="peopleQuery.filterByCategory">
+        <div mat-subheader>Filtrați după categorii</div>
+        <mat-list-option *ngFor="let category of categories" [value]="category.categoryId">{{category.name}}</mat-list-option>
+    </mat-selection-list>          
+</div>

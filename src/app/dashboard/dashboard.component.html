@@ -1,0 +1,42 @@
+<div class="flex-container">
+    <mat-toolbar class="white border-bottom">
+        <span>Agendă</span>
+        <span class="spacer"></span>
+        <button mat-icon-button [routerLink]="['search']">
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-toolbar>
+    <div class="flex-content">
+        <div class="dashboard-section">
+            <div class="section-title">Categorii persoane</div>
+            <app-categories-list [categories]="categories"></app-categories-list>
+            <button mat-stroked-button *ngIf="!categories?.length" (click)="addCategory()">Adăugați categorie</button>
+        </div>
+        <div class="dashboard-section" *ngIf="favoritePeople?.length">
+            <div class="section-title">Persoane favorite</div>
+            <app-people-list [people]="favoritePeople"></app-people-list>
+        </div>
+        <div class="floating-fab-container">
+            <button mat-fab color="accent" class="main-fab">
+                <mat-icon>add</mat-icon>
+            </button>
+            <div class="fab-actions-container">
+                <div class="fab-action">
+                    <span>Adăugați categorie</span>
+                    <button mat-mini-fab color="accent">
+                        <mat-icon>category</mat-icon>
+                    </button>
+                    <a class="extend" (click)="addCategory()"></a>
+                </div>
+                <div class="fab-action">
+                    <span>Adăugați persoană</span>
+                    <button mat-mini-fab color="accent">
+                        <mat-icon>person</mat-icon>
+                    </button>
+                    <a class="extend" [routerLink]="['person', 'create']"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

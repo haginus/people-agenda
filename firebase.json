@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/people-agenda",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

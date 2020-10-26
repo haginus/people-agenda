@@ -1,24 +1,30 @@
 {
   "name": "people-agenda",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy": "ng build --prod && firebase deploy"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.1.2",
+    "@angular/cdk": "^10.2.4",
     "@angular/common": "~10.1.2",
     "@angular/compiler": "~10.1.2",
     "@angular/core": "~10.1.2",
     "@angular/forms": "~10.1.2",
+    "@angular/material": "^10.2.4",
     "@angular/platform-browser": "~10.1.2",
     "@angular/platform-browser-dynamic": "~10.1.2",
     "@angular/router": "~10.1.2",
+    "@angular/service-worker": "~10.1.2",
+    "@ngx-pwa/local-storage": "^10.1.0",
+    "ngx-indexed-db": "^6.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
