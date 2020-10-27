@@ -16,17 +16,25 @@ export class SetupComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.prevURL = params['prevURL'];
+      this.config.getConfig().subscribe(config => {
+        if(config.acceptedTerms)
+          this.navigate();
+      })
     });
   }
 
   acceptTerms() : void {
     this.config.acceptTerms().subscribe(accepted => {
       if(accepted) 
-        if(this.prevURL) 
-          this.router.navigateByUrl(this.prevURL);
-        else
-          this.router.navigate(['']);
+        this.navigate();
     })
+  }
+
+  navigate() : void {
+    if(this.prevURL) 
+      this.router.navigateByUrl(this.prevURL);
+    else
+      this.router.navigate(['']);
   }
 
 }
