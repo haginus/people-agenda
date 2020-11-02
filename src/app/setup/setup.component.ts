@@ -17,7 +17,7 @@ export class SetupComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.prevURL = params['prevURL'];
       this.config.getConfig().subscribe(config => {
-        if(config.acceptedTerms)
+        if(config && config.acceptedTerms)
           this.navigate(true);
       })
     });
