@@ -11,6 +11,7 @@ import { CategoryEditorComponent } from '../category/category-editor/category-ed
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { parseCNP } from '../parse-CNP';
 import { imageResize } from './image-resize';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-person',
@@ -239,12 +240,12 @@ export class PersonComponent implements OnInit {
       })
         .then(() => {})
         .catch((error) => {
-          navigator.clipboard.writeText('https://' + window.location.hostname + url).then(() => {
+          navigator.clipboard.writeText(environment.url + url).then(() => {
             this.peopleService.showToast('Informații copiate în clipboard.');
           })
         });
     } else {
-      navigator.clipboard.writeText('https://' + window.location.hostname + url).then(() => {
+      navigator.clipboard.writeText(environment.url + url).then(() => {
         this.peopleService.showToast('Informații copiate în clipboard.');
       })
     }

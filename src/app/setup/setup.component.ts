@@ -18,7 +18,7 @@ export class SetupComponent implements OnInit {
       this.prevURL = params['prevURL'];
       this.config.getConfig().subscribe(config => {
         if(config.acceptedTerms)
-          this.navigate();
+          this.navigate(true);
       })
     });
   }
@@ -30,8 +30,8 @@ export class SetupComponent implements OnInit {
     })
   }
 
-  navigate() : void {
-    if(this.prevURL) 
+  navigate(prevAccepted = false) : void {
+    if(!prevAccepted && this.prevURL) 
       this.router.navigateByUrl(this.prevURL);
     else
       this.router.navigate(['']);
