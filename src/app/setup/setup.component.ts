@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { config } from 'rxjs';
 import { ConfigService } from '../config.service';
 
 @Component({

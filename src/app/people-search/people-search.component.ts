@@ -43,7 +43,7 @@ export class PeopleSearchComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if(params && params["categoryId"]) {
-        this.peopleQuery.filterByCategory = [+params["categoryId"]]
+        this.peopleQuery.filterByCategory = [params["categoryId"]]
       }
 
       this.peopleService.getCategories().subscribe(res => {
@@ -77,9 +77,9 @@ export class PeopleSearchComponent implements OnInit {
     
     //sort
     if(this.peopleQuery.sortBy.index == 'id' && this.peopleQuery.sortBy.order == 'asc')
-      this.peopleFiltered.sort((a, b) => a.personId - b.personId)
+      this.peopleFiltered.sort((a, b) => a.personId < b.personId ? -1 : 1)
     if(this.peopleQuery.sortBy.index == 'id' && this.peopleQuery.sortBy.order == 'desc')
-      this.peopleFiltered.sort((a, b) => b.personId - a.personId)
+      this.peopleFiltered.sort((a, b) => b.personId < a.personId ? -1 : 1)
     if(this.peopleQuery.sortBy.index == 'firstName' && this.peopleQuery.sortBy.order == 'asc')
       this.peopleFiltered.sort((a, b) => a.firstName < b.firstName ? -1 : 1)
     if(this.peopleQuery.sortBy.index == 'firstName' && this.peopleQuery.sortBy.order == 'desc')

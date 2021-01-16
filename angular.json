@@ -127,6 +127,10 @@
               "devServerTarget": "people-agenda:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

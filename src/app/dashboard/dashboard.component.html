@@ -5,6 +5,9 @@
         <button mat-icon-button [routerLink]="['search']">
             <mat-icon>search</mat-icon>
         </button>
+        <button mat-icon-button (click)="logout()" title="Delogare">
+            <mat-icon>login</mat-icon>
+        </button>
     </mat-toolbar>
     <div class="flex-content">
         <div class="dashboard-section">

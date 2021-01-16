@@ -2,6 +2,8 @@ import { Injectable, NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { AuthPageComponent } from './auth-page/auth-page.component';
+import { AuthService } from './auth.service';
 import { ConfigService } from './config.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PeopleSearchComponent } from './people-search/people-search.component';
@@ -11,26 +13,26 @@ import { SetupComponent } from './setup/setup.component';
 
 @Injectable()
 export class SetupGuard implements CanActivate {
-    constructor(private config: ConfigService, private router: Router) { }
+    constructor(private auth: AuthService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
       let prevURL = route.url.join('/');
-      return this.config.getConfig().pipe(
+      return this.auth.getUser().pipe(
         map(e => {
-          if (e && e.acceptedTerms) {
+          if (e && e.uid) {
             return true;
           } else {
             if(prevURL)
-              this.router.navigate(['/setup', prevURL]);
+              this.router.navigate(['/auth', prevURL]);
             else
-              this.router.navigate(['/setup']);
+              this.router.navigate(['/auth']);
           }
         }),
         catchError((err) => {
           if(prevURL)
-            this.router.navigate(['/setup', prevURL]);
+            this.router.navigate(['/auth', prevURL]);
           else
-            this.router.navigate(['/setup']);
+            this.router.navigate(['/auth']);
           return of(false);
         })
       );
@@ -47,6 +49,7 @@ const routes: Routes = [
   { path: 'person/create', component: PersonComponent, canActivate: [SetupGuard], data: {mode: 'edit'} },
   { path: 'person/:personId', component: PersonComponent, canActivate: [SetupGuard], data: {mode: 'view'} },
   { path: 'share/:URI', component: PersonComponent, canActivate: [SetupGuard], data: {mode: 'share'} },
+  { path: 'auth', component: AuthPageComponent },
   { path: '**', redirectTo: '' },
 ];
 

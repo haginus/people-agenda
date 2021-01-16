@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { CategoryEditorComponent } from '../category/category-editor/category-editor.component';
 import { Category, PeopleService, Person } from '../people.service';
 
@@ -10,7 +12,8 @@ import { Category, PeopleService, Person } from '../people.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private peopleService: PeopleService) { }
+  constructor(private dialog: MatDialog, private peopleService: PeopleService, private auth: AuthService,
+    private router: Router) { }
 
   categories : Category[];
   favoritePeople : Person[];
@@ -27,9 +30,14 @@ export class DashboardComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(res => {
-      if(res)
-        this.categories.push(res)
+      //if(res)
+        //this.categories.push(res)
     });
+  }
+
+  async logout() {
+    await this.auth.logout();
+    this.router.navigate(["auth"]);
   }
 
 }

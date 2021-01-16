@@ -23,12 +23,6 @@ export class CategoriesListComponent implements OnInit {
         mode: 'edit'
       }
     });
-
-    dialogRef.afterClosed().subscribe(category => {
-      let index = this.categories.findIndex(ctg => category.categoryId == ctg.categoryId);
-      if(index >= 0)
-        this.categories[index] = category;
-    });
   }
 
   deleteCategory(categoryId: number) {
@@ -37,12 +31,6 @@ export class CategoriesListComponent implements OnInit {
         categoryId: categoryId,
         mode: 'delete'
       }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(!result) return;
-      let index = this.categories.findIndex(ctg => categoryId == ctg.categoryId);
-      if(index >= 0)
-        this.categories.splice(index, 1);
     });
   }
 

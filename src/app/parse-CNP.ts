@@ -16,11 +16,11 @@ export const parseCNP = (cnp: string) : ParsedCNP => {
         parsedData["isResident"] = true;
     } else {
         if([1, 2].includes(yearSex))
-        date = '19';
+            date = '19';
         else if([3, 4].includes(yearSex))
-        date = '18';
+            date = '18';
         else
-        date = '20';
+            date = '20';
     }
     date += cnp.substring(1, 3) + '-' + cnp.substring(3, 5) + '-' + cnp.substring(5, 7) // YYYY-MM-DD
     const dateParsed = Date.parse(date);

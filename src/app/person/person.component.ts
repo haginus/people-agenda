@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router, RoutesRecognized } from '@angular/router';
-import { filter, pairwise } from 'rxjs/operators';
+import { filter, pairwise, switchMap } from 'rxjs/operators';
 import { NoteEditorComponent } from './note-editor/note-editor.component';
 import { Category, Collection, PeopleService, Person } from '../people.service';
 import { FormControl, FormGroup, FormGroupDirective, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { parseCNP } from '../parse-CNP';
 import { imageResize } from './image-resize';
 import { environment } from './../../environments/environment';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-person',
@@ -21,25 +22,25 @@ import { environment } from './../../environments/environment';
 export class PersonComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private location: Location,
-    private peopleService: PeopleService, private dialog: MatDialog) { }
+    private peopleService: PeopleService, private dialog: MatDialog, private auth: AuthService) { }
 
-  personId: number;
+  personId: string;
   person : Person;
   categories : Category[];
-  private lastPhoto : string;
+  private lastPhoto : string = null;
   mode: 'edit' | 'view' | 'share';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if(params['personId'] != undefined) {
-        this.personId = +params['personId'];
+        this.personId = params['personId'];
         this.getPerson();
       } else {
         if(params['URI']) {
           this.person = this.decodePerson(params['URI']);
         }
         else
-          this.person = {lastName: null, firstName: null, CNP: null, notes: [], categoryId: []}
+          this.person = {lastName: null, firstName: null, CNP: null, notes: [], categoryId: [], starredBy: []}
       }
     });
 
@@ -66,7 +67,8 @@ export class PersonComponent implements OnInit {
   goBack() {
     if(this.mode == 'edit' && this.personId != undefined) {
       this.mode = 'view';
-      this.person.photo = this.lastPhoto;
+      if(this.lastPhoto)
+        this.person.photo = this.lastPhoto;
       return
     }
     let state = this.location.getState();
@@ -148,15 +150,6 @@ export class PersonComponent implements OnInit {
         mode: 'edit'
       }
     });
-    let prev : number[] = this.categoryId.value;
-    console.log(prev)
-    dialogRef.afterClosed().subscribe(res => {
-      if(res) {
-        this.categories.push(res)
-        prev.push(res.categoryId)
-        this.categoryId.setValue(prev);
-      }
-    });
   }
 
   deletePerson() {
@@ -172,10 +165,24 @@ export class PersonComponent implements OnInit {
   }
 
   toggleStarred() {
-    let starred = this.person.starred;
-    this.person.starred = starred ? 0 : 1; 
-    this.peopleService.editPerson(this.person).subscribe(res => {
-      let msg = 'Persoana a fost ' + (!starred ? 'adăugată la' : 'scoasă de la') + ' favorite.';
+    let res: boolean;
+    this.auth.getUser().pipe(
+      switchMap(user => {
+        const uid = user.uid;
+        let starred = this.person.starredBy;
+        let index = starred.findIndex(val => uid === val);
+        if(index == -1) {
+          starred.push(uid);
+          res = true;
+        } else {
+          starred.splice(index, 1);
+          res = false;
+        }
+        console.log(this.person)
+        return this.peopleService.editPerson(this.person);
+      })
+    ).subscribe(result => {
+      let msg = 'Persoana a fost ' + (res ? 'adăugată la' : 'scoasă de la') + ' favorite.';
       this.peopleService.showToast(msg);
     })
   }

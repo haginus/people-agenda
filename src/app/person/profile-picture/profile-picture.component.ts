@@ -11,16 +11,19 @@ export class ProfilePictureComponent implements OnInit {
   @Input('photo') photo : String;
   @Input('width') width : number = 48;
   @Input('height') height : number = 48;
-  colorPal : any;
+  @Input('colorPal') colorPal: any = null;
   ngOnInit(): void {
-    const colors = [
-      {bg: '#2196F3', color: '#FFFFFF'},
-      {bg: '#4CAF50', color: '#FFFFFF'},
-      {bg: '#FFEB3B', color: '#000000'},
-      {bg: '#673AB7', color: '#FFFFFF'},
-      {bg: '#795548', color: '#FFFFFF'},
-    ]
-    this.colorPal = colors[Math.floor(Math.random() * colors.length)]
+    if(this.colorPal === null)
+      this.colorPal = colors[Math.floor(Math.random() * colors.length)]
   }
 
 }
+
+const colors = [
+  {bg: '#2196F3', color: '#FFFFFF'},
+  {bg: '#4CAF50', color: '#FFFFFF'},
+  {bg: '#FFEB3B', color: '#000000'},
+  {bg: '#673AB7', color: '#FFFFFF'},
+  {bg: '#795548', color: '#FFFFFF'},
+  {bg: '#ff4081', color: '#FFFFFF'}
+]

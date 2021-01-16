@@ -33,6 +33,11 @@ import { NoteEditorComponent } from './person/note-editor/note-editor.component'
 import { CategoryEditorComponent } from './category/category-editor/category-editor.component';
 import { DialogSearchFilters, PeopleSearchComponent } from './people-search/people-search.component';
 import { AgePipe } from './person/age.pipe';
+import { AuthPageComponent } from './auth-page/auth-page.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -50,7 +55,8 @@ import { AgePipe } from './person/age.pipe';
     DialogPersonCategory,
     DialogSearchFilters,
     DialogViewPhoto,
-    AgePipe
+    AgePipe,
+    AuthPageComponent
   ],
   imports: [
     BrowserModule,
@@ -71,8 +77,12 @@ import { AgePipe } from './person/age.pipe';
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    NgxIndexedDBModule.forRoot(dbConfig)
+    NgxIndexedDBModule.forRoot(dbConfig),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [SetupGuard],
   bootstrap: [AppComponent]

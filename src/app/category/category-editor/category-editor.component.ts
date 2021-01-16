@@ -36,7 +36,7 @@ export class CategoryEditorComponent implements OnInit {
     if(this.data?.categoryId)
       this.peopleService.editCategory(this.category);
     else {
-      this.peopleService.addCategory(this.category).subscribe(id => this.category.categoryId = id)
+      this.peopleService.addCategory(this.category).subscribe();
     }
   }
 

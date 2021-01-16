@@ -1,0 +1,75 @@
+<div class="flex-container">
+    <div class="auth-box mat-elevation-z2">
+        <div class="loading-container" *ngIf="loading">
+            <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+        </div>
+        <form [formGroup]="authForm" *ngIf="page === null">
+            <h1>Autentificare</h1>
+            <mat-form-field appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input type="email" matInput formControlName="email">
+                <mat-hint>Nu aveți cont? Introduceți e-mailul și vă puteți crea unul în pasul următor!</mat-hint>
+            </mat-form-field>
+            <div class="centered bot">
+                <button mat-fab (click)="tryLogin()" [disabled]="authForm.invalid || loading">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </form>
+        <form [formGroup]="loginForm" *ngIf="page === 'login'">
+            <button mat-icon-button (click)="back()">
+                <mat-icon>arrow_backward</mat-icon>
+            </button>
+            <div class="centered">
+                <app-profile-picture [width]="72" [height]="72" [colorPal]="{bg: '#2196F3', color: '#FFFFFF'}"></app-profile-picture>
+                <h2>{{email}}</h2>
+            </div>
+            <mat-form-field appearance="outline" style="display: none;">
+                <mat-label>E-mail</mat-label>
+                <input type="email" matInput formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Parolă</mat-label>
+                <input type="password" matInput formControlName="password">
+            </mat-form-field>
+            <div class="centered bot">
+                <button mat-fab (click)="login()" [disabled]="loginForm.invalid || loading">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </form>
+
+        <form [formGroup]="registerForm" *ngIf="page === 'register'" autocomplete="off">
+            <button mat-icon-button (click)="back()">
+                <mat-icon>arrow_backward</mat-icon>
+            </button>
+            <h1>Înregistrare</h1>
+            <mat-form-field appearance="outline">
+                <mat-label>Nume</mat-label>
+                <input type="text" matInput formControlName="lastName" [errorStateMatcher]="matcher">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Prenume</mat-label>
+                <input type="text" matInput formControlName="firstName" [errorStateMatcher]="matcher">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Parolă</mat-label>
+                <input [type]="passwordVisible ? 'text' : 'password'" matInput formControlName="password" [errorStateMatcher]="matcher" spellcheck="false">
+                <button mat-icon-button matSuffix (click)="passwordVisible = !passwordVisible">
+                    <mat-icon>{{passwordVisible ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </button>
+                <mat-hint>Parola trebuie să aibă cel puțin 6 caractere.</mat-hint>
+                <mat-error>Parola trebuie să aibă cel puțin 6 caractere.</mat-error>
+            </mat-form-field>
+            <div class="centered bot">
+                <button mat-fab (click)="signUp()" [disabled]="registerForm.invalid || loading">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

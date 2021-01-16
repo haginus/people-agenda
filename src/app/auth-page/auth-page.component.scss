@@ -1,0 +1,33 @@
+.auth-box {
+    width: 100%;
+    max-width: 400px;
+    background: #FAFAFA;
+    border-radius: 4px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    z-index: 1;
+}
+
+.flex-container {
+    background: #2196F3;
+    align-items: center;
+    justify-content: center;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.centered.bot {
+    margin-top: 16px;
+}
